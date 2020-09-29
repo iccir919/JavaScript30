@@ -58,7 +58,52 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  let playPromise;
+  let previousAudio;
 
+    document.addEventListener("keydown", (event) => {
+      const keyCode = event.keyCode;
+      const keys = document.getElementsByClassName("key");
+      const drumSounds = document.getElementsByTagName("audio");
+
+      let targetKey;
+      let targetAudio;
+
+      for (let i = 0; i < keys.length; i++) {
+        if (Number(keys[i].dataset.key) === keyCode) targetKey = keys[i];
+        if (Number(drumSounds[i].dataset.key) === keyCode) {
+          targetAudio = drumSounds[i];
+        }
+      }
+      if (targetKey) targetKey.classList.add("playing");
+
+      if (targetAudio) {
+        if (previousAudio) {
+          playPromise.then(_ => {
+            previousAudio.pause();
+            previousAudio.load();
+            playPromise = targetAudio.play();
+          })
+        } else {
+          playPromise = targetAudio.play();
+        }
+
+        previousAudio = targetAudio;
+      }
+
+    });
+
+    document.addEventListener("keyup", (event) => {
+      const keyCode = event.keyCode;
+      const keys = document.getElementsByClassName("key");
+      let targetKey;
+      for (let i = 0; i < keys.length; i++) {
+        if (Number(keys[i].dataset.key) === keyCode) {
+          targetKey = keys[i];
+        }
+      }
+      if (targetKey) targetKey.classList.remove("playing");
+    });
 </script>
 
 

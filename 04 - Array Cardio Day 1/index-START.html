@@ -31,28 +31,70 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const inventorsBornInThe1950s = inventors.filter((inventor) => {
+      return inventor.year > 1499 && inventor.year < 1600;
+    })
+    console.log("Inventors for those who were born in the 1500's", inventorsBornInThe1950s)
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    const firstAndLast = inventors.map((inventor) => `${inventor.first} ${inventor.last}`);
+    console.log("Inventors first and last names", firstAndLast)
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const inventorsByBirthdate = inventors.sort((a, b) => a.year - b.year);
+    console.log("Inventors by birthdate, oldest to youngest", inventorsByBirthdate);
+
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+    const yearsLived = inventors.reduce((accum, curr) => {
+      return (curr.passed - curr.year) + accum;
+    }, 0)
+    console.log("Number of years all the inventors lived all together:", yearsLived)
 
     // 5. Sort the inventors by years lived
+    const inventorsByYearsLived = inventors.sort((a, b) => {
+      (a.passed - a.year) - (b.passed - b.year)
+    }).map((inventor) => inventor.passed - inventor.year)
+    console.log("Inventors by years lived", inventorsByYearsLived)
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
+    const boulevards = ["Boulevards of Paris", "City walls of Paris", "Thiers wall", "Wall of Charles V", "Wall of Philip II Augustus", "City gates of Paris", "Haussmann's renovation of Paris", "Boulevards of the Marshals", "Boulevard Auguste-Blanqui", "Boulevard Barbès", "Boulevard Beaumarchais", "Boulevard de l'Amiral-Bruix", "Boulevard Mortier", "Boulevard Poniatowski", "Boulevard Soult", "Boulevard des Capucines", "Boulevard de la Chapelle", "Boulevard de Clichy", "Boulevard du Crime", "Boulevard du Général-d'Armée-Jean-Simon", "Boulevard Haussmann", "Boulevard de l'Hôpital", "Boulevard des Italiens", "Boulevard Lefebvre", "Boulevard de la Madeleine", "Boulevard de Magenta", "Boulevard Marguerite-de-Rochechouart", "Boulevard Montmartre", "Boulevard du Montparnasse", "Boulevard Raspail", "Boulevard Richard-Lenoir", "Boulevard Saint-Germain", "Boulevard Saint-Michel", "Boulevard de Sébastopol", "Boulevard de Strasbourg", "Boulevard du Temple", "Boulevard Voltaire", "Boulevard de la Zone"];
+    const regex = RegExp('de');
+    const boulevardsWithDe = boulevards.filter((boulevard) => regex.test(boulevard));
+    console.log("List of Boulevards in Paris that contain 'de' anywhere in the name:", boulevardsWithDe);
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const inventorsSortedByLastName = inventors.sort((a, b) => {
+        let la = a.last.toLowerCase(),
+            lb = b.last.toLowerCase();
+
+        if (la < lb) {
+            return -1;
+        }
+        if (la > lb) {
+            return 1;
+        }
+        return 0;
+    });
+    console.log("Inventors sorted alphabetically by last name", inventorsSortedByLastName);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const instancesOfWordsInArray = data.reduce((accum, curr) => {
+      if (accum[curr]) {
+        accum[curr] = accum[curr] + 1;
+      } else {
+        accum[curr] = 1;
+      }
+      return accum;
+    }, {})
+    console.log("Instances of each of the words in the array", instancesOfWordsInArray)
 
   </script>
 </body>
